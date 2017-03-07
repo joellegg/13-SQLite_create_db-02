@@ -11,8 +11,14 @@ const { Database } = require('sqlite3').verbose();
 // Database method accepts a callback function for successful connection
 // Changes will persist once connection closes
 const db = new Database('example.sqlite', () => console.log('Connected!'));
-console.log(db);
+
+// errorHandler is a function which accepts an error object
+const errorHandler = (err) => {
+  if (err) { // If there is an error obj, it will be console logged
+    console.log(`Msg: ${err}`);
+  };
+};
 
 // Passing in IF NOT EXISTS after CREATE TABLE will check to make sure there are no tables named 'employees'
 // If it does exist, this line will not run
-db.run("CREATE TABLE IF NOT EXISTS employees (id INT, firstName TEXT, lastName TEXT, jobTitle TEXT, address TEXT, salary INT)");
+db.run("CREATE TABLE IF NOT EXISTS employees (id INTEGER PRIMARY KEY, firstName TEXT, lastName TEXT, jobTitle TEXT, address TEXT, salary INT)", errorHandler);
